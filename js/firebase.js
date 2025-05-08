@@ -1,13 +1,10 @@
-require('dotenv').config();
-
-// Initialize Firebase
 const firebaseConfig = {
-  apiKey: process.env.APIKEY,
+  apiKey: "AIzaSyDVn2ePJxz-Ph3YWTNmmd1HnEdISAkCH8E",
   authDomain: "librarianv1.firebaseapp.com",
   projectId: "librarianv1",
   storageBucket: "librarianv1.firebasestorage.app",
-  messagingSenderId: process.env.MESSAGING_SENDER_ID,
-  appId: process.env.APPID,
+  messagingSenderId: "616348469887",
+  appId: "1:616348469887:web:a5d14cec0d2453bb210d4a",
   measurementId: "G-GX9VJZ0QQ1"
 };
 
