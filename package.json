@@ -2,7 +2,10 @@
   "name": "my-dotenv-project",
   "version": "1.0.0",
   "description": "egvuiviojsvariables",
-  "main": "index.js",  
+  "main": "firebase.js",  
+  "scripts": {
+    "build": "node firebase.js"
+  },
   "dependencies": {
     "dotenv": "^16.0.0"
   },
