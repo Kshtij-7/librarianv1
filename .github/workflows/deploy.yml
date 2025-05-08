@@ -16,7 +16,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Install Dependencies
-        run: npm install dotenv      
+        run: npm install      
       - name: Build
         run: npm run build
       - name: Deploy to GitHub Pages
