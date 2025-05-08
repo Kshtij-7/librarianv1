@@ -15,10 +15,10 @@ jobs:
       MESSAGING_SENDER_ID: ${{ secrets.MESSAGING_SENDER_ID }}
     steps:
       - uses: actions/checkout@v3
-      - name: Install & Build
-        run: |
-          npm ci
-          npm run build
+      - name: Install Dependencies
+        run: npm install        
+      - name: Build
+        run: npm run build
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
