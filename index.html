@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Sharing Platform</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <!-- Firebase App (the core Firebase SDK) -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <!-- Firebase Auth -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <!-- Firebase Firestore -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+</head>
+<body>
+    <header>
+        <h1>Welcome to the Book Sharing Platform</h1>
+    </header>
+    <main>
+        <section id="auth-section">
+            <h2>Create an Account</h2>
+            <button id="google-sign-in">Sign in with Google</button>
+            <!-- <input type="email" id="email" placeholder="Enter your email" />
+            <button id="email-signin">Sign in with Email</button> -->
+        </section>
+        <section id="group-management">
+            <h2>Manage Groups</h2>
+            <button id="gotoGroup">Go to Groups</button><br><br>
+            <button id="create-group">Create New Group</button>
+            <button id="join-group">Join Existing Group</button>
+        </section>
+        <section id="user-groups">
+            <h2>Your Groups</h2>
+            <ul id="groups-list"></ul>
+        </section>
+    </main>
+    
+    <!-- JS files (after Firebase) -->
+    <script src="js/firebase.js"></script>
+    <script src="js/main.js"></script>
+    
+</body>
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Group Page - Book Sharing App</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <!-- Firebase App (the core Firebase SDK) -->
+    
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <!-- Firebase Auth -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <!-- Firebase Firestore -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+</head>
+<body>
+    <header>
+        <h1>Book Sharing Group</h1>
+        <div id="user-info">
+            <span id="current-group">
+                Current Group:
+                <select id="group-select"></select>
+                <strong id="group-name" style="display:none;"></strong><br>
+                <button id="copyID">Copy Group ID</button><br>
+                <button id="shareButton">Share invite link</button><br>
+            </span>
+            <button id="leaveGroup">Leave Group</button>
+            <button id="logout">Logout</button>
+        </div>
+    </header>
+    
+    <main>
+        <section id="my-books">
+            <h2>My Listed Books</h2>
+            <input type="text" id="my-books-search" placeholder="Search your books...">
+            <ul id="my-books-list"></ul>
+        </section>
+        <section id="add-book">
+            <h2>Add a New Book</h2>
+            <form id="book-form">
+                <input type="text" id="book-title" placeholder="Book Title" required>
+                <input type="text" id="book-author" placeholder="Author" required>
+                <input type="text" id="book-summary" placeholder="Summary" required>
+                <input type="url" id="book-image-url" placeholder="Book Image URL" required>
+                <button type="submit" id="bookSubmitButton">Add Book</button>
+            </form>
+        </section><br><br>
+        <section id="book-list">
+            <h2>Available Books</h2>
+            <input type="text" id="books-search" placeholder="Search available books...">
+            <ul id="books"></ul>
+        </section>
+        <br><br>
+        <button id="notifications-button">Show Notifications</button>
+        <button id="clear-notifications-button">Clear Notifications</button>
+        <section id="notifications" hidden="true">
+            <h2>Notifications</h2> 
+            
+            <ul id="notification-list"></ul>
+        </section>
+        <section id="requests-section">
+            <h2>Your Active Requests</h2>
+            <ul id="requests-list"></ul>
+        </section>
+    </main>
+
+    <script src="js/firebase.js"></script>
+    <script src="js/group.js"></script>
+</body>
+</html>
