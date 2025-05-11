@@ -20,9 +20,10 @@
             <span id="current-group">
                 Current Group:
                 <select id="group-select"></select>
-                <strong id="group-name" style="display:none;"></strong><br>
-                <button id="copyID">Copy Group ID</button><br>
-                <button id="shareButton">Share invite link</button><br>
+                <strong id="group-name" style="display:none;"></strong>
+                <button id="group-info-button">Info</button><br>
+                <button id="copyID">Copy Group ID <i class="fa-solid fa-copy"></i> </button><br>
+                <button id="shareButton">Share invite link <i class="fa-solid fa-share"></i> </button><br>
             </span>
             <button id="leaveGroup">Leave Group</button>
             <button id="logout">Logout</button>
@@ -30,13 +31,28 @@
     </header>
     
     <main>
-        <section id="my-books">
-            <h2>My Listed Books</h2>
+        <div id="group-info-popup"
+            style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); background:white; padding:20px; border:1px solid #ccc; box-shadow:0 4px 8px rgba(0,0,0,0.2); z-index:1000;">
+            <h3>Group Info</h3>
+            <p><strong>Group Name:</strong> <span id="group-info-name"></span></p>
+            <p><strong>Total Members:</strong> <span id="group-info-total"></span></p>
+            <div id="group-members-list" style="max-height: 200px; overflow-y: auto; border: 1px solid #ccc; padding: 10px;">
+                <ul id="group-members"></ul>
+            </div>
+            <button id="close-group-info">Close</button>
+        </div>
+        <br><br>
+        <button id="my-books-button">My Books</button>
+
+        <section id="my-books" hidden="true">
+            <br>
             <input type="text" id="my-books-search" placeholder="Search your books...">
             <ul id="my-books-list"></ul>
         </section>
-        <section id="add-book">
-            <h2>Add a New Book</h2>
+        <br><br>
+        <button id="add-book-button">List a Book</button>
+        <section id="add-book" hidden="true">
+            <br>
             <form id="book-form">
                 <input type="text" id="book-title" placeholder="Book Title" required>
                 <input type="text" id="book-author" placeholder="Author" required>
@@ -54,8 +70,8 @@
         <button id="notifications-button">Show Notifications</button>
         <button id="clear-notifications-button">Clear Notifications</button>
         <section id="notifications" hidden="true">
-            <h2>Notifications</h2> 
-            
+            <h2>Notifications</h2>
+    
             <ul id="notification-list"></ul>
         </section>
         <section id="requests-section">
