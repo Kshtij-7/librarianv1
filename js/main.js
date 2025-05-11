@@ -65,6 +65,17 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
+    firebase.auth().onAuthStateChanged(user => {
+        if (user) {
+            const userRef = firebase.firestore().collection('users').doc(user.uid);
+            userRef.set({
+                displayName: user.displayName || null,
+                email: user.email || null,
+                id: user.uid,
+            }, { merge: true });
+        }
+    });
+
     /* const emailSignInButton = document.getElementById('email-signin');
     const emailInput = document.getElementById('email');
 

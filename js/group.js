@@ -7,6 +7,17 @@ document.addEventListener('DOMContentLoaded', function() {
     const groupNameDisplay = document.getElementById('group-name');
 
 
+    firebase.auth().onAuthStateChanged(user => {
+        if (user) {
+            const userRef = firebase.firestore().collection('users').doc(user.uid);
+            userRef.set({
+                displayName: user.displayName || null,
+                email: user.email || null,
+                id: user.uid,
+            }, { merge: true });
+        }
+    });
+
     function getInviteGroupId() {
         const params = new URLSearchParams(window.location.search);
         return params.get('invite');
@@ -37,7 +48,69 @@ document.addEventListener('DOMContentLoaded', function() {
             .catch(error => console.log('Error sharing:', error));
     });
 
+    document.getElementById('group-info-button').addEventListener('click', function () {
+        const selectedGroupId = groupSelect.value;
+        if (!selectedGroupId) {
+            alert("Please select a group first.");
+            return;
+        }
 
+        // Fetch group info from Firestore
+        firebase.firestore().collection('groups').doc(selectedGroupId).get()
+            .then(doc => {
+                if (doc.exists) {
+                    const groupData = doc.data();
+                    const members = groupData.members || [];
+                    const groupName = groupData.name || selectedGroupId;
+                    const ownerId = groupData.owner || null;
+                    
+
+                    // Populate group name and total members
+                    document.getElementById('group-info-name').textContent = groupName;
+                    document.getElementById('group-info-total').textContent = members.length;
+
+                    // Fetch member details (display name or email)
+                    const membersList = document.getElementById('group-members');
+                    membersList.innerHTML = ""; // Clear previous members
+                    let count = 0;
+
+                    members.forEach(memberId => {
+                        firebase.firestore().collection('users').doc(memberId).get()
+                            .then(userDoc => {
+                                if (userDoc.exists) {
+                                    const userData = userDoc.data();
+                                   
+                                    const li = document.createElement('li');
+                                    li.textContent = (userData.displayName || userData.email || "Unknown User") + (userData.id === ownerId ? " (Owner)" : "");
+                                    membersList.appendChild(li);
+                                    count++;
+
+                                    // Make the list scrollable if more than 5 members
+                                    if (count > 5) {
+                                        document.getElementById('group-members-list').style.overflowY = "auto";
+                                    } else {
+                                        document.getElementById('group-members-list').style.overflowY = "hidden";
+                                    }
+                                }
+                            });
+                    });
+
+                    // Show the popup
+                    document.getElementById('group-info-popup').style.display = 'block';
+                } else {
+                    alert("Group not found.");
+                }
+            })
+            .catch(error => {
+                console.error("Error fetching group info:", error);
+                alert("Failed to fetch group info.");
+            });
+    });
+
+    // Close the popup
+    document.getElementById('close-group-info').addEventListener('click', function () {
+        document.getElementById('group-info-popup').style.display = 'none';
+    });
 
     function loadActiveRequests() {
         const user = firebase.auth().currentUser;
@@ -219,6 +292,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
     document.getElementById('notifications-button').addEventListener('click', function() {
         document.getElementById('notifications').hidden = !document.getElementById('notifications').hidden;
+    });
+
+    document.getElementById('my-books-button').addEventListener('click', function() {
+        document.getElementById('my-books').hidden = !document.getElementById('my-books').hidden;
+    });
+
+    document.getElementById('add-book-button').addEventListener('click', function() {
+        document.getElementById('add-book').hidden = !document.getElementById('add-book').hidden;
     });
 
     document.getElementById('leaveGroup').addEventListener('click', function() {
