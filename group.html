@@ -21,9 +21,9 @@
                 Current Group:
                 <select id="group-select"></select>
                 <strong id="group-name" style="display:none;"></strong>
-                <button id="group-info-button">Info</button><br>
-                <button id="copyID">Copy Group ID <i class="fa-solid fa-copy"></i> </button><br>
-                <button id="shareButton">Share invite link <i class="fa-solid fa-share"></i> </button><br>
+                <br>
+                <button id="group-info-button">Info ⓘ</button><br>
+                
             </span>
             <button id="leaveGroup">Leave Group</button>
             <button id="logout">Logout</button>
@@ -33,8 +33,11 @@
     <main>
         <div id="group-info-popup"
             style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); background:white; padding:20px; border:1px solid #ccc; box-shadow:0 4px 8px rgba(0,0,0,0.2); z-index:1000;">
-            <h3>Group Info</h3>
+            <h2>Group Info</h3>
             <p><strong>Group Name:</strong> <span id="group-info-name"></span></p>
+            <p><strong>Group ID:</strong> <span id="group-info-id"></span></p><br>
+            <button id="copyID">Copy Group ID <i class="fa-solid fa-copy"></i> </button><br><br>
+            <button id="shareButton">Share invite link <i class="fa-solid fa-share"></i> </button><br><br>
             <p><strong>Total Members:</strong> <span id="group-info-total"></span></p>
             <div id="group-members-list" style="max-height: 200px; overflow-y: auto; border: 1px solid #ccc; padding: 10px;">
                 <ul id="group-members"></ul>
