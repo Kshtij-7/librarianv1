@@ -55,6 +55,8 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
+        document.getElementById('group-info-id').innerText = selectedGroupId;
+
         // Fetch group info from Firestore
         firebase.firestore().collection('groups').doc(selectedGroupId).get()
             .then(doc => {
@@ -96,6 +98,9 @@ document.addEventListener('DOMContentLoaded', function() {
                     });
 
                     // Show the popup
+                    document.getElementById('group-info-popup').classList.add('show');
+                    //popup.classList.add('show');
+                    
                     document.getElementById('group-info-popup').style.display = 'block';
                 } else {
                     alert("Group not found.");
