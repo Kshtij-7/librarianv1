@@ -83,7 +83,10 @@ document.addEventListener('DOMContentLoaded', function() {
                                     const userData = userDoc.data();
                                    
                                     const li = document.createElement('li');
-                                    li.textContent = (userData.displayName || userData.email || "Unknown User") + (userData.id === ownerId ? " (Owner)" : "");
+                                    li.innerHTML =`<button>`+ (userData.displayName || userData.email || "Unknown User") + (userData.id === ownerId ? " (Owner)" : "") + `</button> <br><br>`;
+                                    li.addEventListener('click', () => {
+                                        loadUserProfile(userData.id);
+                                    })
                                     membersList.appendChild(li);
                                     count++;
 
@@ -636,3 +639,81 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Additional functions for handling book details and requests can be added here
 });
+
+function loadUserProfile(userId) {
+    const selectedGroup = localStorage.getItem('lastSelectedGroupId');
+
+    // Elements to display profile data
+    const profileName = document.getElementById('profile-name');
+    const listedBooksUl = document.getElementById('profile-listed-books');
+    const borrowedBooksUl = document.getElementById('profile-borrowed-books');
+
+    document.getElementById('user-profile').classList.add('show');
+    document.getElementById('close-profile-info').addEventListener('click',  () =>{
+        document.getElementById('user-profile').classList.remove('show');
+    });
+
+    // Clear previous data
+    profileName.textContent = "Loading...";
+    listedBooksUl.innerHTML = "<li>Loading...</li>";
+    borrowedBooksUl.innerHTML = "<li>Loading...</li>";
+
+    // Fetch user details
+    firebase.firestore().collection('users').doc(userId).get()
+        .then(userDoc => {
+            if (userDoc.exists) {
+                const userData = userDoc.data();
+                profileName.textContent = userData.displayName || userData.email || "Unknown User";
+
+                // Fetch listed books in the group
+                firebase.firestore().collection('books')
+                    .where('groupId', '==', selectedGroup)
+                    .where('ownerId', '==', userId)
+                    .get()
+                    .then(querySnapshot => {
+                        listedBooksUl.innerHTML = "";
+                        if (querySnapshot.empty) {
+                            listedBooksUl.innerHTML = "<li>No listed books.</li>";
+                        } else {
+                            querySnapshot.forEach(doc => {
+                                const book = doc.data();
+                                const li = document.createElement('li');
+                                li.textContent = `${book.title} by ${book.author}`;
+                                listedBooksUl.appendChild(li);
+                            });
+                        }
+                    });
+
+                // Fetch borrowed books in the group
+                firebase.firestore().collection('books')
+                    .where('groupId', '==', selectedGroup)
+                    .where('status', '==', `borrowed by ${userData.displayName || userData.email}`)
+                    .get()
+                    .then(querySnapshot => {
+                        borrowedBooksUl.innerHTML = "";
+                        if (querySnapshot.empty) {
+                            borrowedBooksUl.innerHTML = "<li>No borrowed books.</li>";
+                        } else {
+                            querySnapshot.forEach(doc => {
+                                const book = doc.data();
+                                const li = document.createElement('li');
+                                li.textContent = `${book.title} by ${book.author}`;
+                                borrowedBooksUl.appendChild(li);
+                            });
+                        }
+                    });
+            } else {
+                profileName.textContent = "User not found.";
+                listedBooksUl.innerHTML = "<li>No data available.</li>";
+                borrowedBooksUl.innerHTML = "<li>No data available.</li>";
+            }
+        })
+        .catch(error => {
+            console.error("Error loading user profile:", error);
+            profileName.textContent = "Error loading profile.";
+            listedBooksUl.innerHTML = "<li>Error loading data.</li>";
+            borrowedBooksUl.innerHTML = "<li>Error loading data.</li>";
+        });
+
+    
+}
