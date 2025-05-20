@@ -55,16 +55,7 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
-        document.getElementById('group-info-name').hidden = false;
-        document.getElementById('group-info-total').hidden = false;
-
-        document.getElementById('group-info-title').hidden = false;
-        document.getElementById('group-name-title').hidden = false;
-        document.getElementById('group-id-title').hidden = false;
-        document.getElementById('copyID').hidden = false;
-        document.getElementById('shareButton').hidden = false;
-        document.getElementById('group-total-title').hidden = false;
-
+        
         document.getElementById('group-info-id').innerText = selectedGroupId;
 
         // Fetch group info from Firestore
@@ -137,73 +128,69 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
-        document.getElementById('group-info-id').innerText = selectedGroupId;
+        //document.getElementById('group-info-id').innerText = selectedGroupId;
 
-        
+        if(document.getElementById('members-list-2').hidden){
+            document.getElementById('members-list-2').hidden = false;
 
-        // Fetch group info from Firestore
-        firebase.firestore().collection('groups').doc(selectedGroupId).get()
-            .then(doc => {
-                if (doc.exists) {
-                    const groupData = doc.data();
-                    const members = groupData.members || [];
-                    //const groupName = groupData.name || selectedGroupId;
-                    const ownerId = groupData.owner || null;
-                    
+            // Fetch group info from Firestore
+            firebase.firestore().collection('groups').doc(selectedGroupId).get()
+                .then(doc => {
+                    if (doc.exists) {
+                        const groupData = doc.data();
+                        const members = groupData.members || [];
+                        //const groupName = groupData.name || selectedGroupId;
+                        const ownerId = groupData.owner || null;
 
-                    // Populate group name and total members
-                    document.getElementById('group-info-name').hidden = true;
-                    document.getElementById('group-info-total').hidden = true;
-                    
-                    document.getElementById('group-info-title').hidden = true;
-                    document.getElementById('group-name-title').hidden = true;
-                    document.getElementById('group-id-title').hidden = true;
-                    document.getElementById('copyID').hidden = true;
-                    document.getElementById('shareButton').hidden = true;
-                    document.getElementById('group-total-title').hidden = true;
 
-                    // Fetch member details (display name or email)
-                    const membersList = document.getElementById('group-members');
-                    membersList.innerHTML = ""; // Clear previous members
-                    let count = 0;
+                        // Populate group name and total members
 
-                    members.forEach(memberId => {
-                        firebase.firestore().collection('users').doc(memberId).get()
-                            .then(userDoc => {
-                                if (userDoc.exists) {
-                                    const userData = userDoc.data();
-                                   
-                                    const li = document.createElement('li');
-                                    li.innerHTML =`<button>`+ (userData.displayName || userData.email || "Unknown User") + (userData.id === ownerId ? " (Owner)" : "") + `</button> <br><br>`;
-                                    li.addEventListener('click', () => {
-                                        loadUserProfile(userData.id);
-                                    })
-                                    membersList.appendChild(li);
-                                    count++;
 
-                                    // Make the list scrollable if more than 5 members
-                                    if (count > 5) {
-                                        document.getElementById('group-members-list').style.overflowY = "auto";
-                                    } else {
-                                        document.getElementById('group-members-list').style.overflowY = "hidden";
+                        // Fetch member details (display name or email)
+                        const membersList = document.getElementById('group-members-2');
+                        membersList.innerHTML = ""; // Clear previous members
+                        let count = 0;
+
+                        members.forEach(memberId => {
+                            firebase.firestore().collection('users').doc(memberId).get()
+                                .then(userDoc => {
+                                    if (userDoc.exists) {
+                                        const userData = userDoc.data();
+
+                                        const li = document.createElement('li');
+                                        li.innerHTML = `<button>` + (userData.displayName || userData.email || "Unknown User") + (userData.id === ownerId ? " (Owner)" : "") + `</button> <br><br>`;
+                                        li.addEventListener('click', () => {
+                                            loadUserProfile(userData.id);
+                                        })
+                                        membersList.appendChild(li);
+                                        count++;
+
+                                        // Make the list scrollable if more than 5 members
+                                        if (count > 5) {
+                                            document.getElementById('members-list-2').style.overflowY = "auto";
+                                        } else {
+                                            document.getElementById('members-list-2').style.overflowY = "hidden";
+                                        }
                                     }
-                                }
-                            });
-                    });
+                                });
+                        });
 
-                    // Show the popup
-                    document.getElementById('group-info-popup').classList.add('show');
-                    //popup.classList.add('show');
-                    
-                    document.getElementById('group-info-popup').style.display = 'block';
-                } else {
-                    alert("Group not found.");
-                }
-            })
-            .catch(error => {
-                console.error("Error fetching group info:", error);
-                alert("Failed to fetch group info.");
-            });
+                        // Show the popup
+                        //document.getElementById('group-info-popup').classList.add('show');
+                        //popup.classList.add('show');
+
+                        //document.getElementById('group-info-popup').style.display = 'block';
+                    } else {
+                        alert("Group not found.");
+                    }
+                })
+                .catch(error => {
+                    console.error("Error fetching group info:", error);
+                    alert("Failed to fetch group info.");
+                });
+        } else{
+            document.getElementById('members-list-2').hidden = true;
+        }
     });
 
     function loadActiveRequests() {
