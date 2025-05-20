@@ -32,12 +32,12 @@
     <main>
         <div id="group-info-popup"
             style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); background:white; padding:20px; border:1px solid #ccc; box-shadow:0 4px 8px rgba(0,0,0,0.2); z-index:1000;">
-            <h3 id="group-info-title">Group Info</h3>
-            <p id="group-name-title"><strong>Group Name:</strong> <span id="group-info-name"></span></p>
-            <p id="group-id-title"><strong>Group ID:</strong> <span id="group-info-id"></span></p><br>
+            <h3>Group Info</h3>
+            <p></p> <strong>Group Name:</strong> <span id="group-info-name"></span></p>
+            <p ><strong>Group ID:</strong> <span id="group-info-id"></span></p><br>
             <button id="copyID">Copy Group ID <i class="fa-solid fa-copy"></i> </button><br><br>
             <button id="shareButton">Share invite link <i class="fa-solid fa-share"></i> </button><br><br>
-            <p id="group-total-title"><strong>Total Members:</strong> <span id="group-info-total"></span></p>
+            <p ><strong>Total Members:</strong> <span id="group-info-total"></span></p>
             <div id="group-members-list" style="max-height: 200px; overflow-y: auto; border: 1px solid #ccc; padding: 10px;">
                 <ul id="group-members"></ul>
             </div>
@@ -55,6 +55,10 @@
         </section>
         <br><br>
         <button id="members-list-button">Members List</button><br><br>
+        <section id="members-list-2" hidden="true">
+            <ul id="group-members-2"></ul>
+            <br><br>
+        </section>
         <button id="my-books-button">My Books</button>
 
         <section id="my-books" hidden="true">
