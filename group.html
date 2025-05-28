@@ -31,14 +31,14 @@
     
     <main>
         <div id="group-info-popup"
-            style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); background:white; padding:20px; border:1px solid #ccc; box-shadow:0 4px 8px rgba(0,0,0,0.2); z-index:1000;">
-            <h3>Group Info</h3>
-            <p></p> <strong>Group Name:</strong> <span id="group-info-name"></span></p>
-            <p ><strong>Group ID:</strong> <span id="group-info-id"></span></p><br>
-            <button id="copyID">Copy Group ID <i class="fa-solid fa-copy"></i> </button><br><br>
-            <button id="shareButton">Share invite link <i class="fa-solid fa-share"></i> </button><br><br>
-            <p ><strong>Total Members:</strong> <span id="group-info-total"></span></p>
-            <div id="group-members-list" style="max-height: 200px; overflow-y: auto; border: 1px solid #ccc; padding: 10px;">
+        style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); background:white; padding:20px; border:1px solid #ccc; box-shadow:0 4px 8px rgba(0,0,0,0.2); z-index:1000;">
+        <h3>Group Info</h3>
+        <p></p> <strong>Group Name:</strong> <span id="group-info-name"></span></p>
+        <p ><strong>Group ID:</strong> <span id="group-info-id"></span></p><br>
+        <button id="copyID">Copy Group ID <i class="fa-solid fa-copy"></i> </button><br><br>
+        <button id="shareButton">Share invite link <i class="fa-solid fa-share"></i> </button><br><br>
+        <p ><strong>Total Members:</strong> <span id="group-info-total"></span></p>
+        <div id="group-members-list" style="max-height: 200px; overflow-y: auto; border: 1px solid #ccc; padding: 10px;">
                 <ul id="group-members"></ul>
             </div>
             <button id="close-group-info">Close</button>
@@ -53,14 +53,32 @@
             <ul id="profile-borrowed-books"></ul>
             <button id="close-profile-info">Close</button>
         </section>
+        
+        <br><br>
+        
+        <div id="edit-book-popup" style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); background:white; padding:20px; border:1px solid #ccc; box-shadow:0 4px 8px rgba(0,0,0,0.2); z-index:3000;">
+            <h3>Editing Book</h3>
+            <form id="edit-book-form">
+                <!-- <input type="hidden" id="edit-book-id"> -->
+                <input type="text" id="edit-book-title" placeholder="Book Title" required><br><br>
+                <input type="text" id="edit-book-author" placeholder="Author" required><br><br>
+                <input type="text" id="edit-book-summary" placeholder="Summary" required><br><br>
+                <input type="url" id="edit-book-image-url" placeholder="Book Image URL" required><br><br>
+                <input type="text" id="edit-book-status" placeholder="Status" required><br><br>
+                <button type="submit" id="edit-book-button">Update Book</button><br><br>
+            </form>
+            <button id="close-edit-book-popup">Close</button>
+            
+        </div>
         <br><br>
         <button id="members-list-button">Members List</button><br><br>
         <section id="members-list-2" hidden="true">
             <ul id="group-members-2"></ul>
             <br><br>
         </section>
+        
         <button id="my-books-button">My Books</button>
-
+        
         <section id="my-books" hidden="true">
             <br>
             <input type="text" id="my-books-search" placeholder="Search your books...">
