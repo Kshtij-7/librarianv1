@@ -121,6 +121,10 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('group-info-popup').style.display = 'none';
     });
 
+    document.getElementById('close-edit-book-popup').addEventListener('click', function () {
+        document.getElementById('edit-book-popup').style.display = 'none';
+    });
+
     document.getElementById('members-list-button').addEventListener('click', function () {
         const selectedGroupId = groupSelect.value;
         if (!selectedGroupId) {
@@ -257,10 +261,13 @@ document.addEventListener('DOMContentLoaded', function() {
                         <strong>${book.title}</strong> by ${book.author}<br>
                         <em>${book.summary}</em><br>
                         Status: <span id="status-${doc.id}">${book.status}</span>
-                        <button onclick="editBookPrompt('${doc.id}', '${book.title.replace(/'/g,"\\'")}', '${book.author.replace(/'/g,"\\'")}', '${book.summary.replace(/'/g,"\\'")}', '${book.imageUrl.replace(/'/g,"\\'")}', '${book.status.replace(/'/g,"\\'")}')">Edit</button>
+                        <button id="${doc.id}Book">Edit</button>
                         <button onclick="deleteBook('${doc.id}')">Delete</button>
                     `;
                         myBooksUl.appendChild(li);
+                        document.getElementById(`${doc.id}Book`).addEventListener('click', function() {
+                            openEditBookPopup(doc.id, book.title, book.author, book.summary, book.imageUrl, book.status);
+                        });
                         count++;
                     }
                 });
@@ -601,6 +608,46 @@ document.addEventListener('DOMContentLoaded', function() {
             alert("Error updating book: " + error.message);
         });
     };
+
+    function openEditBookPopup(bookId, title, author, summary, imageUrl, status) {
+        //console.log("Opening edit book popup for bookId:", bookId);
+        document.getElementById('edit-book-popup').style.display = 'block';
+        document.getElementById('edit-book-title').value = title;
+        document.getElementById('edit-book-author').value = author;
+        document.getElementById('edit-book-summary').value = summary;
+        document.getElementById('edit-book-image-url').value = imageUrl;
+        document.getElementById('edit-book-status').value = status;
+        document.getElementById('edit-book-button').addEventListener('click', function() {
+            editBook(bookId, title, author, summary, imageUrl, status);
+        });
+    }
+
+    function editBook(bookId, title, author, summary, imageUrl, status) {
+        const newTitle = document.getElementById('edit-book-title').value.trim();
+        if (newTitle === null) newTitle = title;
+        const newAuthor = document.getElementById('edit-book-author').value.trim();
+        if (newAuthor === null) newAuthor = author;
+        const newSummary = document.getElementById('edit-book-summary').value.trim();
+        if (newSummary === null) newSummary = summary;
+        const newImageUrl = document.getElementById('edit-book-image-url').value.trim();
+        if (newImageUrl === null) newImageUrl = imageUrl;
+        const newStatus = document.getElementById('edit-book-status').value.trim();
+        if (newStatus === null) newStatus = status;
+
+        firebase.firestore().collection('books').doc(bookId).update({
+            title: newTitle,
+            author: newAuthor,
+            summary: newSummary,
+            imageUrl: newImageUrl,
+            status: newStatus
+        }).then(() => {
+            alert("Book updated!");
+            loadBooks();
+            loadMyBooks();
+        }).catch(error => {
+            alert("Error updating book: " + error.message);
+        });
+    }
 
     window.deleteBook = function (bookId) {
         if (!confirm("Are you sure you want to delete this book?")) return;
